@@ -1,36 +1,41 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
 
+# import CRUD Operations from Lesson 1
+from sqlalchemy import create_engine
+from database_setup import Base, Restaurant, MenuItem
+from sqlalchemy.orm import sessionmaker
+
+# Create session and connect to DB
+engine = create_engine('sqlite:///restaurantmenu.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
 class WebServerHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        if self.path.endswith("/hello"):
+        if self.path.endswith("/restaurants"):
             print("troubleshooting")
+            restaurants = session.query(Restaurant).all()
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             output = ""
             output += "<html><body>"
-            output += "Hello!"
-            output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2>"
-            output += "<input name='message' type='text' ><input type='submit' value='Submit'> </form>"
+            for restaurant in restaurants:
+                output += restaurant.name
+                output += "</br>"
+                output += "<a href='#'>Edit</a>"
+                output += "</br>"
+                output += "<a href='#'>Delete</a>"
+                output += "</br>"
+                output += "</br>"
             output += "</body></html>"
             self.wfile.write(output)
             print output
             return
-        if self.path.endswith("/hola"):
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            output = ""
-            output += "<html><body>"
-            output += "&#161Hola!"
-            output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2>"
-            output += "<input name='message' type='text' ><input type='submit' value='Submit'> </form>"
-            output += "</body></html>"
-            self.wfile.write(output)
-            print output
-            return
+        
         else:
             self.send_error(404, 'File Not Found: %s' % self.path)
 
