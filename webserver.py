@@ -23,6 +23,10 @@ class WebServerHandler(BaseHTTPRequestHandler):
             self.end_headers()
             output = ""
             output += "<html><body>"
+            output += "<a href='/restaurants/new'>Create a new restaurant</a>"
+            output += "</br>"
+            output += "</br>"
+
             for restaurant in restaurants:
                 output += restaurant.name
                 output += "</br>"
@@ -36,29 +40,39 @@ class WebServerHandler(BaseHTTPRequestHandler):
             print output
             return
         
+        if self.path.endswith("/restaurants/new"):
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            output = ""
+            output += "<html><body>"
+            output += "<form method='POST' action='/restaurants/new' enctype='multipart/form-data'><h2>New restaurant name:</h2>"
+            output += "<input name='newRestaurantName' type='text' ><input type='submit' value='Submit'> </form>"
+            output += "</body></html>"
+            self.wfile.write(output)
+            return
+
         else:
             self.send_error(404, 'File Not Found: %s' % self.path)
 
     def do_POST(self):
         try:
-            self.send_response(301)
-            self.end_headers()
+            if self.path.endswith("/restaurants/new"):
+                ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+                if ctype == 'multipart/form-data':
+                    fields=cgi.parse_multipart(self.rfile, pdict)
+                    messagecontent = fields.get('newRestaurantName')
 
-            ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-            if ctype == 'multipart/form-data':
-                fields=cgi.parse_multipart(self.rfile, pdict)
-                messagecontent = fields.get('message')
+                newRestaurant = Restaurant(name=messagecontent[0])
+                session.add(newRestaurant)
+                session.commit()
 
-            output = ""
-            output += "<html><body>"
-            output += "<h2> Okay, how about this: </h2>"
-            output += "<h1> %s </h1>" % messagecontent[0]
+                self.send_response(301)
+                self.send_header('Content-type',    'text/html')
+                self.send_header('Location', '/restaurants')
+                self.end_headers()
 
-            output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2>"
-            output += "<input name='message' type='text' ><input type='submit' value='Submit'> </form>"
-            output += "</body></html>"
-            self.wfile.write(output)
-            print(output)
+                return
 
         except:
             pass
