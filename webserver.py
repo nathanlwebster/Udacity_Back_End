@@ -52,6 +52,8 @@ class WebServerHandler(BaseHTTPRequestHandler):
             output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2>"
             output += "<input name='message' type='text' ><input type='submit' value='Submit'> </form>"
             output += "</body></html>"
+            self.wfile.write(output)
+            print(output)
 
         except:
             pass
