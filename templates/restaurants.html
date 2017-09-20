@@ -14,7 +14,7 @@
                     <div class="container">
                         <h1>Nathan's Restaurants</h1>
                         <p>Welcome to Nathan's Restaurants, where you can take a peek at fictitious menus created by the fine folks at Udacity.</p>
-                        <p><a class="btn btn-primary btn-lg" href="{{url_for('newRestaurant') }}" role="button">Create a new restaurant &raquo;</a></p>
+                        <p><a class="btn btn-primary btn-lg" href="{{url_for('newRestaurant') }}" role="button">Create a new restaurant</a></p>
                     </div>
                   </div>
               
@@ -24,9 +24,9 @@
                         {% for restaurant in restaurants %}
                         <div class="col-md-6 panel panel-default">
                             <h2>{{ restaurant.name }}</h2>
-                            <p><a class="btn btn-primary" href="{{url_for('showMenu', restaurant_id = restaurant.id) }}" role="button">View menu &raquo;</a></p>
-                            <p><a class="btn btn-info" href="{{url_for('editRestaurant', restaurant_id = restaurant.id) }}" role="button">Edit Restaurant &raquo;</a></p>
-                            <p><a class="btn btn-danger" href="{{url_for('deleteRestaurant', restaurant_id = restaurant.id) }}" role="button">Delete Restaurant &raquo;</a></p>
+                            <p><a class="btn btn-primary" href="{{url_for('showMenu', restaurant_id = restaurant.id) }}" role="button">View menu</a></p>
+                            <p><a class="btn btn-info" href="{{url_for('editRestaurant', restaurant_id = restaurant.id) }}" role="button">Edit Restaurant</a></p>
+                            <p><a class="btn btn-danger" href="{{url_for('deleteRestaurant', restaurant_id = restaurant.id) }}" role="button">Delete Restaurant</a></p>
                         </div>
                         {% endfor %}
                     </div>
