@@ -8,7 +8,30 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
-        <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+               
+                  <!-- Main jumbotron for a primary marketing message or call to action -->
+                  <div class="jumbotron">
+                    <div class="container">
+                        <h1>Nathan's Restaurants</h1>
+                        <p>Welcome to Nathan's Restaurants, where you can take a peek at fictitious menus created by the fine folks at Udacity.</p>
+                        <p><a class="btn btn-primary btn-lg" href="#" role="button">Create a new restaurant &raquo;</a></p>
+                    </div>
+                  </div>
+              
+                  <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        {% for restaurant in restaurants %}
+                        <div class="col-md-6 panel panel-default">
+                            <h2>{{ restaurant.name }}</h2>
+                            <p><a class="btn btn-default" href="{{url_for('showMenu', restaurant_id = restaurant.id) }}" role="button">View menu &raquo;</a></p>
+                            <p><a class="btn btn-default" href="{{url_for('editRestaurant', restaurant_id = restaurant.id) }}" role="button">Edit Restaurant &raquo;</a></p>
+                            <p><a class="btn btn-default" href="{{url_for('deleteRestaurant', restaurant_id = restaurant.id) }}" role="button">Delete Restaurant &raquo;</a></p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                
+                    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -32,34 +55,6 @@
                 </div>
             </div>
         </nav> -->
-              
-                  <!-- Main jumbotron for a primary marketing message or call to action -->
-                  <div class="jumbotron">
-                    <div class="container">
-                        <h1>Nathan's Restaurants</h1>
-                        <p>Welcome to Nathan's Restaurants, where you can take a peek at fictitious menus created by the fine folks at Udacity.</p>
-                        <p><a class="btn btn-primary btn-lg" href="#" role="button">Create a new restaurant &raquo;</a></p>
-                    </div>
-                  </div>
-              
-                  <div class="container">
-                    <!-- Example row of columns -->
-                    <div class="row">
-                        {% for restaurant in restaurants %}
-                        <div class="col-md-6 panel panel-default">
-                            <h2>{{ restaurant.name }}</h2>
-                            <p><a class="btn btn-default" href="#" role="button">View menu &raquo;</a></p>
-                            <p><a class="btn btn-default" href="#" role="button">Edit Restaurant &raquo;</a></p>
-                            <p><a class="btn btn-default" href="#" role="button">Delete Restaurant &raquo;</a></p>
-                        </div>
-                        {% endfor %}
-                    </div>
-        
-
-        
-
-
-        
 
 
     </body>
